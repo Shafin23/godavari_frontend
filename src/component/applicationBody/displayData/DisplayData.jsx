@@ -1,5 +1,5 @@
 import React from 'react';
-import DisplayDataHeading from './displayDataHeading/displayDataHeading';
+import DisplayDataHeading from './outLet/DashboardData/Dashboard/displayDataHeading/displayDataHeading';
 import { Outlet } from 'react-router-dom';
 
 const DisplayData = () => {

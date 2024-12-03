@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { AppContext } from '../../../../AppProvider/AppProvider';
+import { AppContext } from '../../../../../../../AppProvider/AppProvider';
 
 const DisplayDataHeading = () => {
     const {headingText} = useContext(AppContext)

@@ -3,7 +3,9 @@ import { FaShip, FaBan } from "react-icons/fa"; // Example icons
 import StatCard from "../statCard/StatCard";
 import RevenueChart from "../RevenueChart/RevenueChart";
 import { AppContext } from "../../../../../../AppProvider/AppProvider";
-import DisplayDataHeading from "../../../displayDataHeading/displayDataHeading";
+import DisplayDataHeading from "./DisplayDataHeading";
+
+
 
 
 const Dashboard = () => {
