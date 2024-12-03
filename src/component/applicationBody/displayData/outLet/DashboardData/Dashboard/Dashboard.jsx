@@ -3,8 +3,7 @@ import { FaShip, FaBan } from "react-icons/fa"; // Example icons
 import StatCard from "../statCard/StatCard";
 import RevenueChart from "../RevenueChart/RevenueChart";
 import { AppContext } from "../../../../../../AppProvider/AppProvider";
-import DisplayDataHeading from "./DisplayDataHeading";
-
+// import DisplayDataHeading from "./DisplayDataHeading";
 
 
 
@@ -13,7 +12,7 @@ const Dashboard = () => {
 
     return (
         <div>
-            <DisplayDataHeading />
+            {/* <DisplayDataHeading /> */}
             <div className="  grid grid-cols-1 md:grid-cols-3 gap-4 ">
                 {/* Stat Cards */}
                 <div className="space-y-4">
