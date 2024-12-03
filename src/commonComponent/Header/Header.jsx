@@ -20,6 +20,16 @@ const Header = ({ title, downloadingContent, isPricingPdf }) => {
     key: "selection",
   });
 
+  // Format date for internal use (ISO format)
+  const formatDateISO = (date) => {
+    return date.toISOString();
+  };
+
+  // Format date for display (MM/DD/YYYY)
+  const formatDateDisplay = (date) => {
+    return date.toLocaleDateString(); // Displays in MM/DD/YYYY format by default
+  };
+
   // Function to handle date range selection
   const handleDateRangeChange = (ranges) => {
     const range = ranges.selection; // Use selection key
@@ -31,16 +41,19 @@ const Header = ({ title, downloadingContent, isPricingPdf }) => {
       });
       setShowDateRangePicker(false); // Close the date picker
 
-      // Update the context with the selected dates
-      setStartDate(range.startDate);
-      setEndDate(range.endDate);
+      // Update the context with the selected dates in ISO format
+      setStartDate(formatDateISO(range.startDate));
+      setEndDate(formatDateISO(range.endDate));
 
-      console.log("Selected Date Range:", range.startDate, range.endDate);
+      console.log(
+        "Selected Date Range (ISO):",
+        formatDateISO(range.startDate),
+        formatDateISO(range.endDate)
+      );
     } else {
       console.error("Invalid date range selected:", ranges);
     }
   };
-
 
   const handleDownloadPDF = () => {
     const doc = new jsPDF();
@@ -110,7 +123,6 @@ const Header = ({ title, downloadingContent, isPricingPdf }) => {
     }
   };
 
-
   const handleAddBoat = () => {
     navigate("/AddBoatForm");
   };
@@ -131,8 +143,8 @@ const Header = ({ title, downloadingContent, isPricingPdf }) => {
               }
               className="text-sm px-4 py-2 bg-gray-100 border rounded-md hover:bg-gray-200"
             >
-              {selectedDateRange.startDate.toLocaleDateString()} -{" "}
-              {selectedDateRange.endDate.toLocaleDateString()}
+              {formatDateDisplay(selectedDateRange.startDate)} -{" "}
+              {formatDateDisplay(selectedDateRange.endDate)}
             </button>
 
             {/* Date Range Picker */}
