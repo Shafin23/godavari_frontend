@@ -42,25 +42,28 @@ const BoatPriceTable = ({ data, onUpdateSuccess }) => {
 
     const handleSaveChanges = async () => {
         if (currentBoat && currentField) {
-            console.log(currentBoat)
+            console.log(currentBoat);
             try {
                 // Make PUT request
-                const response = await fetch(`https://godavari-xm9d.vercel.app/pricing/updatePrice/${currentBoat._id}`, {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        priceField: currentField,
-                        newValue: currentValue,
-                    }),
-                });
+                const response = await fetch(
+                    `https://godavari-xm9d.vercel.app/pricing/updatePrice/${currentBoat._id}`,
+                    {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            priceField: currentField,
+                            newValue: currentValue,
+                        }),
+                    }
+                );
 
                 const result = await response.json();
 
                 if (response.ok && result.success) {
                     alert("Price updated successfully!");
-                    setTrigger(prev=>!prev)
+                    setTrigger((prev) => !prev);
                     if (onUpdateSuccess) {
                         onUpdateSuccess(currentBoat.id, currentField, currentValue);
                     }
@@ -86,6 +89,7 @@ const BoatPriceTable = ({ data, onUpdateSuccess }) => {
                             <th className="border border-gray-300 px-4 py-3 text-left">Passenger</th>
                             <th className="border border-gray-300 px-4 py-3 text-left">Meals</th>
                             <th className="border border-gray-300 px-4 py-3 text-left">Transportation</th>
+                            <th className="border border-gray-300 px-4 py-3 text-left">Extras</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -187,6 +191,28 @@ const BoatPriceTable = ({ data, onUpdateSuccess }) => {
                                                         "shared_rides",
                                                         boat.shared_rides
                                                     )
+                                                }
+                                            />
+                                        </div>
+                                    </div>
+                                </td>
+                                <td className="border border-gray-300 px-4 py-3 text-gray-600">
+                                    <div className="space-y-2">
+                                        <div className="flex items-center">
+                                            <span>Tour Guide: ₹{boat.tourGuide}</span>
+                                            <FaPencilAlt
+                                                className="ml-2 text-gray-500 text-sm cursor-pointer hover:text-blue-500 transition"
+                                                onClick={() =>
+                                                    handlePencilClick(boat, "tourGuide", boat.tourGuide)
+                                                }
+                                            />
+                                        </div>
+                                        <div className="flex items-center">
+                                            <span>Insurance: ₹{boat.insurence}</span>
+                                            <FaPencilAlt
+                                                className="ml-2 text-gray-500 text-sm cursor-pointer hover:text-blue-500 transition"
+                                                onClick={() =>
+                                                    handlePencilClick(boat, "insurence", boat.insurence)
                                                 }
                                             />
                                         </div>

@@ -19,29 +19,30 @@ const ManageMeals = () => {
                 downloadingContent={downloadingContent}
             />
             <Navbar />
-            <div className='grid grid-cols-3 gap-4 items-center my-8 '>
-                <StatCard
-                    title="Total Meals"
-                    value={getStatistics?.totalMeal}
-                    icon={<FaShip className="text-blue-500" />}
-                    bgColor="bg-[#ff6666]"
-                />
-                <StatCard
-                    title="Total Veg meals"
-                    value={getStatistics?.veg}
-                    icon={<FaShip className="text-blue-500" />}
-                    bgColor="bg-[#b3ffb3]"
-                    textColor="text-black"
-                />
-                <StatCard
-                    title="Total Non-veg meals"
-                    value={getStatistics?.noVeg}
-                    icon={<FaShip className="text-blue-500" />}
-                    bgColor="bg-[#fee795]"
-                    textColor='text-black'
-                />
-            </div>
-
+            {location.pathname === '/ManageMeals/Overview' && (
+                <div className='grid grid-cols-3 gap-4 items-center my-8 '>
+                    <StatCard
+                        title="Total Meals"
+                        value={getStatistics?.totalMeal}
+                        icon={<FaShip className="text-blue-500" />}
+                        bgColor="bg-[#ff6666]"
+                    />
+                    <StatCard
+                        title="Total Veg meals"
+                        value={getStatistics?.veg}
+                        icon={<FaShip className="text-blue-500" />}
+                        bgColor="bg-[#b3ffb3]"
+                        textColor="text-black"
+                    />
+                    <StatCard
+                        title="Total Non-veg meals"
+                        value={getStatistics?.noVeg}
+                        icon={<FaShip className="text-blue-500" />}
+                        bgColor="bg-[#fee795]"
+                        textColor='text-black'
+                    />
+                </div>
+            )}
             <hr />
 
             {/* Conditionally render the dropdown */}
@@ -59,9 +60,9 @@ const ManageMeals = () => {
                             onChange={(e) => setMealType(e.target.value)}
                             className="block w-full p-3 bg-white border border-gray-300 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700 transition-all appearance-none"
                         >
-                            <option value="" disabled selected>
+                            {/* <option value="" disabled selected>
                                 Choose a meal type
-                            </option>
+                            </option> */}
                             {mealOption.map((option) => (
                                 <option key={option} value={option}>
                                     {option === 'veg' ? 'Vegetarian' : 'Non-Vegetarian'}

@@ -56,7 +56,7 @@ const AppProvider = ({ children }) => {
             console.error('BASEURL is not defined in .env file.');
         }
     }, [mealType, trigger]);
-
+    console.log('===========',startDate)
     const data = {
         headingText,
         setHeadingText,

@@ -37,7 +37,7 @@ const CancelBookingModal = ({ isOpen, onClose, onConfirm }) => {
 };
 
 // Modal to Confirm Activity Status Change
-const ActivityStatusModal = ({ isOpen, onClose, onConfirm, currentStatus }) => {
+const ActivityStatusModal = ({ isOpen, onClose, onConfirm, currentStatus, setUpcomingAvailibility }) => {
   if (!isOpen) return null;
 
   const newStatus = currentStatus === "Active" ? "Inactive" : "Active";
@@ -51,8 +51,16 @@ const ActivityStatusModal = ({ isOpen, onClose, onConfirm, currentStatus }) => {
         <p className="text-gray-600 mb-6">
           {newStatus === "Active"
             ? "Marking the boat as 'Active' will make it available for bookings."
-            : "Marking the boat as 'Inactive' will make it unavailable for bookings."}
+            : "Marking the boat as 'Inactive' will make it unavailable for bookings. Please select a date when this boat will be available"}
         </p>
+        <div>
+          {newStatus === "Inactive" && (
+            <>
+              <p>Upcoming availability:</p>
+              <input type="Date" onChange={e => setUpcomingAvailibility(e.target.value)} />
+            </>
+          )}
+        </div>
         <div className="flex justify-end space-x-4">
           <button
             className="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-md"
@@ -79,6 +87,7 @@ const Booking = ({ tableHeading, tableData, setTableData }) => {
   const [detailsModalOpen, setDetailsModalOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
   const [bookingDetails, setBookingDetails] = useState(null);
+  const [upcomingAvailability, setUpcomingAvailibility] = useState(null)
 
   useEffect(() => {
     setDownloadingContent(tableData);
@@ -151,6 +160,7 @@ const Booking = ({ tableHeading, tableData, setTableData }) => {
       );
 
       if (response.ok) {
+        setTrigger(prev => !prev)
         const updatedTableData = tableData.filter(
           (item) => item.Booking_ID !== selectedRow.Booking_ID
         );
@@ -180,8 +190,17 @@ const Booking = ({ tableHeading, tableData, setTableData }) => {
           body: JSON.stringify({ isActive: updatedStatus === "Active" }),
         }
       );
+      const response1 = await fetch(
+        `https://godavari-xm9d.vercel.app/boat/updateWillActive/${selectedRow._id}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ willActive: updatedStatus === "Active" ? "Available" : upcomingAvailability }),
+        }
+      );
 
       if (response.ok) {
+        setTrigger(prev => !prev)
         const updatedRow = await response.json();
         const updatedTableData = tableData.map((item) =>
           item._id === updatedRow._id
@@ -257,16 +276,16 @@ const Booking = ({ tableHeading, tableData, setTableData }) => {
                 <td
                   key={colIndex}
                   className={`px-6 py-4 text-sm text-gray-800 border border-gray-300 ${column === "Activity"
-                      ? "cursor-pointer hover:bg-gray-100"
-                      : ""
+                    ? "cursor-pointer hover:bg-gray-100"
+                    : ""
                     }`}
                 >
                   {column === "Activity" ? (
                     <div className="flex items-center space-x-2">
                       <div
                         className={`w-3 h-3 rounded-full ${row.Activity === "Active"
-                            ? "bg-green-500"
-                            : "bg-red-500"
+                          ? "bg-green-500"
+                          : "bg-red-500"
                           }`}
                       ></div>
                       <span>{row[column.split(" ").join("_")]}</span>
@@ -316,6 +335,7 @@ const Booking = ({ tableHeading, tableData, setTableData }) => {
         onClose={closeActivityModal}
         onConfirm={handleActivityStatusChange}
         currentStatus={selectedRow?.Activity}
+        setUpcomingAvailibility={setUpcomingAvailibility}
       />
 
       {/* Booking Details Modal */}

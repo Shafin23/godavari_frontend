@@ -24,7 +24,7 @@ const RevenueChart = () => {
   return (
     <div className="p-4 bg-white rounded-2xl border">
       <div className="flex justify-between items-center mb-4 pb-4 border-b">
-        <h4 className="text-lg font-bold">Total Revenue</h4>
+        <h4 className="text-lg font-bold">Total Revenue & Cancellation Amount</h4>
         <select
           className="border rounded p-1 text-sm"
           value={filter}
@@ -43,7 +43,7 @@ const RevenueChart = () => {
             <Tooltip formatter={(value) => `₹${value}`} />
             <Legend />
             <Line type="monotone" dataKey="revenue" stroke="#3b82f6" activeDot={{ r: 8 }} />
-            <Line type="monotone" dataKey="cancellations" stroke="#ef4444" />
+            <Line type="monotone" dataKey="canceledAmount" stroke="#ef4444" name="cancellation amount" />
           </LineChart>
         </ResponsiveContainer>
       </div>
